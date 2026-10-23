@@ -136,11 +136,11 @@ body.gated #front{display:none}body.gated.opened #front{display:grid}body.gated.
 .g-form p{margin:0;text-indent:0}
 .g-form input{font:inherit;color:var(--ink);background:transparent;border:0;border-bottom:1px solid var(--ink);border-radius:0;outline:0;text-align:center;width:6em;padding:0 .2em;margin:0 .3em;-webkit-appearance:none}
 .g-form input:focus{border-bottom-width:2px}
-.g-opt{display:inline-block;padding:0 .35em;cursor:pointer;border-bottom:1px solid transparent;color:var(--ink2)}
+.g-opt{display:inline-block;padding:0 .9em;margin:0 .15em;line-height:1.9;cursor:pointer;border:1.5px solid #8b2f2a;border-radius:3px;color:#8b2f2a;background:rgba(243,233,210,.5);transition:background .15s}.g-opt:hover{background:rgba(139,47,42,.12)}
 .g-sep{color:var(--ink2)}
-.g-opt.sel{color:var(--ink);border-bottom-color:var(--ink)}
+.g-opt.sel{color:#f3e6c8;background:#8b2f2a;border-color:#8b2f2a}.g-need{margin:0;line-height:1.6;text-indent:0;font-size:10.5pt;color:#8b2f2a;letter-spacing:.1em;text-align:center}.ready .g-need{display:none}
 #g-kuro{display:block;width:112px;margin:28px auto 0;opacity:0;transform:translateY(10px);transition:opacity 1.8s ease,transform 1.8s ease}
-.g-go{opacity:0;transition:opacity 1s ease .9s;margin:12px 0 0;text-indent:0}
+.g-go{opacity:.3;transition:opacity .6s ease;margin:12px 0 0;text-indent:0}
 .g-go a{font-size:12pt;letter-spacing:.4em;color:var(--ink);text-decoration:none;border-bottom:1px dotted var(--ink);pointer-events:none}
 @media (max-width:480px){.g-title{font-size:17pt;letter-spacing:.22em;white-space:nowrap}.g-form{font-size:12.5pt}}
 #gate.ready #g-kuro{opacity:1;transform:none}
@@ -411,7 +411,7 @@ body.reading .gb.cur{padding-top:0;min-height:0}
 <p>下属叫<input id="f-call" value="老大" maxlength="6">。</p>
 <p>老板叫<input id="f-boss" value="大壮" maxlength="12">。</p>
 <p>别人说起的时候，说<span class="g-opt" data-v="她">她</span><span class="g-sep">／</span><span class="g-opt" data-v="他">他</span>。</p>
-</div>
+<p class="g-need">点一个「她」或「他」，就能继续</p></div>
 <img id="g-kuro" src="${kuro}" alt="">
 <p class="g-go"><a href="#s1" id="start" data-goto="d01-1">继续</a></p>
 <p class="g-credit">好大壮 · 与 Claude 一起写成</p>
