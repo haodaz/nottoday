@@ -27,6 +27,8 @@ const rerunify=(id,html)=>id==='d01-1'?html.replace('你搬进屋就没有再碰
 const kuro = 'data:image/jpeg;base64,' + fs.readFileSync(path.join(root, 'assets', 'kuro_line.jpg')).toString('base64');
 const asset = f => 'data:image/' + (f.endsWith('.png') ? 'png' : 'jpeg') + ';base64,' + fs.readFileSync(path.join(root, 'assets', f)).toString('base64');
 const COVER = asset('cover.jpg');
+const COVERB = asset('cover_broken.jpg');
+const ICON32 = asset('icon/icon-32.png'), ICON180 = asset('icon/icon-180.png');
 const FONT = f => 'data:font/woff2;base64,' + fs.readFileSync(path.join(root, 'assets', 'fonts', f)).toString('base64');
 const FONTS = { eater: FONT('eater.woff2'), nosifer: FONT('nosifer.woff2'), fell: FONT('imfell.woff2'), fellI: FONT('imfell-italic.woff2'), fellSC: FONT('imfell-sc.woff2'), cinzel: FONT('cinzel-700.woff2') };
 const FRAME = asset('frame.png');
@@ -79,7 +81,7 @@ for (const s of all) {
   else if (s.next) body += `<p class="next">${link(s.next, '继续')}</p>`;
   body += '</section>\n';
 }
-const html = `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NOT TODAY · 游戏书</title><link rel="stylesheet" href="style.css">
+const html = `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><link rel="icon" type="image/png" sizes="32x32" href="${ICON32}"><link rel="apple-touch-icon" sizes="180x180" href="${ICON180}"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NOT TODAY · 游戏书</title><link rel="stylesheet" href="style.css">
 <style>
 .gb{max-width:640px;margin:0 auto;padding:1.2em 0 .6em;border-top:1px dashed var(--rule)}
 .gb figure.fig{margin:1.4em auto;text-align:center}.gb figure.fig img{max-width:min(100%,420px);height:auto;border-radius:2px;animation:figin 1.8s ease both}@keyframes figin{from{opacity:0}to{opacity:1}}.gb figure.fig.dark img{filter:contrast(1.05) brightness(.92)}.gb figure.fig.lcd img{max-width:min(70%,260px);image-rendering:pixelated}@media print{.gb figure.fig img{animation:none}}
@@ -104,6 +106,7 @@ body.gated #front{display:none}body.gated.opened #front{display:grid}body.gated.
 .c-title{position:absolute;left:0;right:0;top:15%;text-align:center;color:#d2b26a;font-size:clamp(20pt,3vw,34pt);letter-spacing:.28em;text-indent:.28em;text-shadow:0 1px 0 rgba(255,240,200,.25),0 -1px 0 rgba(0,0,0,.8),0 0 14px rgba(210,178,106,.25);z-index:2}
 .c-sub{position:absolute;left:0;right:0;top:25%;text-align:center;color:rgba(210,178,106,.8);font-size:9.5pt;letter-spacing:.42em;text-indent:.42em;z-index:2}
 .c-plate{position:absolute;right:13%;top:36%;width:40%;padding:5px 5px 18px;background:#efe3c4;box-shadow:0 10px 24px rgba(0,0,0,.6),0 0 0 1px rgba(0,0,0,.4);transform:rotate(2.5deg);z-index:2}.c-plate img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover;filter:sepia(.25) contrast(1.05)}
+.c-plate img.b{position:absolute;left:5px;right:5px;top:5px;width:auto;height:calc(100% - 23px);opacity:0;filter:none;pointer-events:none}.c-plate.breaking img.b{animation:cbreak 1.15s steps(1,end) both}.c-plate.breaking img.a{animation:cshake .09s 7}.c-plate.breaking{animation:cplate 1.15s steps(1,end) both}@keyframes cbreak{0%{opacity:0}9%{opacity:1}14%{opacity:0}22%{opacity:1}27%{opacity:0}33%{opacity:1;transform:translateX(-3px)}40%{transform:none}100%{opacity:1}}@keyframes cshake{0%{transform:translate(2px,-1px)}50%{transform:translate(-2px,1px)}100%{transform:none}}@keyframes cplate{0%{box-shadow:0 10px 24px rgba(0,0,0,.6),0 0 0 1px rgba(0,0,0,.4)}33%{box-shadow:0 10px 24px rgba(0,0,0,.6),0 0 0 1px rgba(0,0,0,.4),0 0 28px rgba(255,150,170,.55)}100%{box-shadow:0 10px 24px rgba(0,0,0,.6),0 0 0 1px rgba(0,0,0,.4),0 0 28px rgba(255,150,170,.55)}}
 .c-plate::after{content:"";position:absolute;left:12%;right:12%;bottom:7px;border-top:1px solid rgba(139,47,42,.5)}
 .c-hint{position:absolute;right:12%;bottom:8%;color:rgba(243,230,200,.55);font-family:"PingFang SC",sans-serif;font-size:9pt;letter-spacing:.3em;z-index:2;animation:hintpulse 2.6s ease-in-out infinite}
 @keyframes hintpulse{0%,100%{opacity:.35}50%{opacity:.9}}
@@ -391,7 +394,7 @@ body.reading .gb.cur{padding-top:0;min-height:0}
 </style></head><body>
 <div id="noise"></div>
 <div id="hud">${g('heart')}SAN <b id="san">100</b> · 第 <b id="day">1</b> 天 <button id="reset">重来</button> <button id="exp">存档码</button> <button id="imp">读档</button> <button id="snd">声音：关</button></div>
-<section id="cover"><div class="bookcover" style="background-image:url(${LEATHER})"><div class="c-title">NOT TODAY</div><div class="c-sub">一本十八天的互动小说</div><div class="c-plate"><img src="${COVER}" alt=""></div><div class="c-hint">点一下，打开</div></div>
+<section id="cover"><div class="bookcover" style="background-image:url(${LEATHER})"><div class="c-title">NOT TODAY</div><div class="c-sub">一本十八天的互动小说</div><div class="c-plate"><img class="a" src="${COVER}" alt=""><img class="b" src="${COVERB}" alt=""></div><div class="c-hint">点一下，打开</div></div>
 <nav id="menu"><button class="mbtn" id="m-start">${g('eye')}<span><b>开始游戏</b><small>Begin</small></span></button><button class="mbtn" id="m-load">${g('box')}<span><b>读档</b><small>Load</small></span></button><button class="mbtn" id="m-save">${g('card')}<span><b>导出存档</b><small>Export</small></span></button><button class="mbtn" id="m-feed">${g('heart')}<span><b>作者饿了</b><small>Feed the author</small></span></button><button class="mbtn" id="m-snd">${g('pager')}<span><b>声音</b><small id="m-snd-s">Sound · off</small></span></button></nav></section>
 <section id="front">
 <aside id="inner" class="page"><div class="runhead">封 二</div>
@@ -497,7 +500,7 @@ function buildObj(kind,sec,day){const box=document.getElementById('obj');const t
  if(kind==='wqx'){wqxRender();if(wqxBuf)wqxGo();box.querySelectorAll('.kb span').forEach(k=>k.onclick=e=>{e.stopPropagation();const v=k.dataset.k;if(v==='←')wqxBuf=wqxBuf.slice(0,-1);else if(v==='↵'){wqxGo();return;}else if(v==='␣')wqxBuf+=' ';else wqxBuf+=v.toLowerCase();wqxRender();try{sfxClick();}catch(x){}});}}
 document.addEventListener('keydown',e=>{if(!sceneEl().classList.contains('obj')||!document.querySelector('#obj .wqxdev'))return;if(e.key==='Backspace'){wqxBuf=wqxBuf.slice(0,-1);wqxRender();e.preventDefault();}else if(e.key==='Enter'){wqxGo();e.preventDefault();}else if(/^[a-zA-Z' ]$/.test(e.key)){wqxBuf+=e.key.toLowerCase();wqxRender();e.preventDefault();}});
 function setView(kind,sec,day){if(sec)window.curSec=sec;const sc=sceneEl();sc.classList.remove('scr','obj');if(kind==='screen'){buildScreen(sec,day);sc.classList.add('scr');sc.querySelector('.zoomtip').textContent='退远';}else if(kind&&kind!=='room'){buildObj(kind,sec,day);sc.classList.add('obj');sc.querySelector('.zoomtip').textContent='退远';}else{sc.querySelector('.zoomtip').textContent=zoomed?'退远':'凑近桌子';}}
-document.getElementById('cover').onclick=()=>{document.body.classList.add('opened');try{sfxPage();}catch(e){}renderFront();};
+let coverBusy=false;document.getElementById('cover').onclick=()=>{if(coverBusy||document.body.classList.contains('opened'))return;coverBusy=true;const pl=document.querySelector('.c-plate');pl.classList.add('breaking');try{sfxBuzz();}catch(e){}setTimeout(()=>{document.body.classList.add('opened');try{sfxPage();}catch(e){}renderFront();setTimeout(()=>{pl.classList.remove('breaking');coverBusy=false;},600);},1150);};if(/[?&]brk=1/.test(location.search))document.querySelector('.c-plate').classList.add('breaking');
 let mem=null;const store={get(){try{return localStorage.getItem('nt_gb')}catch(e){return mem}},set(v){try{localStorage.setItem('nt_gb',v)}catch(e){mem=v}},del(){try{localStorage.removeItem('nt_gb')}catch(e){mem=null}}};
 const S=Object.assign({san:100,flags:[],day:1,days:0,name:'大壮',nick:'壮壮',call:'老大',boss:'大壮',ta:'',started:false,dream:{},lost:[],changes:[]},JSON.parse(store.get()||'{}'));
 const identity=()=>{document.body.classList.toggle('gated',!S.started);document.body.classList.toggle('rerun',!!S.rerun);document.querySelectorAll('.v-boss').forEach(e=>e.textContent=S.boss);const b=document.getElementById('f-boss');if(b)b.value=S.boss;document.querySelectorAll('.v-call').forEach(e=>e.textContent=S.call);document.querySelectorAll('.v-name').forEach(e=>e.textContent=S.name);document.querySelectorAll('.v-ta').forEach(e=>e.textContent=S.ta);document.querySelectorAll('.v-nick').forEach(e=>e.textContent=S.nick);const k=document.getElementById('f-nick');if(k)k.value=S.nick;const n=document.getElementById('f-name'),c=document.getElementById('f-call');if(n)n.value=S.name;if(c)c.value=S.call;document.querySelectorAll('.g-opt').forEach(o=>o.classList.toggle('sel',!!S.ta&&o.textContent.trim()===S.ta));};
